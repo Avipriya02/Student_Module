@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./node_modules/@prisma/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model students {
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId  // Auto-increment, Primary Key
+  registrationNumber String  @unique // Unique and Required
+  name               String  // Required
+  class              String  // Required
+  rollNo             Int     // Required
+  contactNumber      String  // Required
+  status             Boolean @default(true) // Default: true (Active)
+
+  @@unique([class, rollNo]) // Ensures roll number is unique per class
+}
