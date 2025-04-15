@@ -9,6 +9,11 @@ app.use(express.json());
 // Register student routes
 app.use('/', router);
 
+// Catch-all route for undefined endpoints
+app.use((req, res, next) => {
+  res.status(404).json({ message: "API not found" });
+});
+
 const PORT = process.env.PORT || 8800;
 
 // Connect to the database, then start the server
